@@ -1,0 +1,35 @@
+All these examples reply on ApacheAMQ.
+Your AMQ Brocker should be up and running on the default port.
+
+1.jmsdemo, it uses the javax.jms to implement messaging, the example is synchronous
+	In connectionFactory, url of Brocker is mentioned
+
+	ConnectionFactory -> Connection -> session --->sender
+										|
+										|--------->receiver
+										|
+										|_______ ->message
+										
+2.springjmsdemo, It uses spring to implement both sender and receiver.
+	Here jmsTemplate is used to create sender and receiver
+	One MessageCreator is used to send message.
+	
+	jmsTemplate ------>Sender 
+				|
+				|----->Receiver
+
+
+3.spring-jms-async, It uses MessageListener to listen message from one queue
+	In this, producer is not included. So you can send message using example2
+	One MessageReceiver is there implementing MessageListener
+	and implement onMessage().
+	It used MessageListenerContainer also.
+	
+4.spring-jms-listener-annotation, it use annotation to async messaging
+	@EnableJms and @JmsTemplate.
+	Create MessageListenerContainer, set ConncetionFactory to it and annotate the class @EnableJms
+	whatever method is annotated with @JmsTemplate will receiver message from defined queue.
+	Here also producer is not included. So you can send message using example2
+
+5.springbootjms, both sender and receiver is created using SpringBoot.
+	JmsListenerContainerFactory is used here. DefaultJmsListenerContainerFactory is the implementation
